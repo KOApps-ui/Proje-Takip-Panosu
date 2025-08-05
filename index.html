@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proje Takip Panosu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                            DEFAULT: "hsl(var(--primary))",
+                            foreground: "hsl(var(--primary-foreground))",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(var(--secondary))",
+                            foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(var(--destructive))",
+                            foreground: "hsl(var(--destructive-foreground))",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(var(--muted))",
+                            foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(var(--accent))",
+                            foreground: "hsl(var(--accent-foreground))",
+                        },
+                        popover: {
+                            DEFAULT: "hsl(var(--popover))",
+                            foreground: "hsl(var(--popover-foreground))",
+                        },
+                        card: {
+                            DEFAULT: "hsl(var(--card))",
+                            foreground: "hsl(var(--card-foreground))",
+                        },
+                    },
+                    borderRadius: {
+                        lg: "var(--radius)",
+                        md: "calc(var(--radius) - 2px)",
+                        sm: "calc(var(--radius) - 4px)",
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96%;
+            --accent-foreground: 222.2 84% 4.9%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 221.2 83.2% 53.3%;
+            --radius: 0.5rem;
+        }
+
+        .dark {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+            --popover: 222.2 84% 4.9%;
+            --popover-foreground: 210 40% 98%;
+            --primary: 217.2 91.2% 59.8%;
+            --primary-foreground: 222.2 84% 4.9%;
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 224.3 76.3% 94.1%;
+        }
+
+        /* Form input fixes */
+        input, textarea, select {
+            color: hsl(var(--foreground)) !important;
+            background-color: hsl(var(--background)) !important;
+            border-color: hsl(var(--input)) !important;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: hsl(var(--muted-foreground)) !important;
+            opacity: 0.7 !important;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: 2px solid hsl(var(--ring)) !important;
+            outline-offset: 2px !important;
+        }
+
+        .dark input, .dark textarea, .dark select {
+            color: hsl(var(--foreground)) !important;
+            background-color: hsl(var(--background)) !important;
+            border-color: hsl(var(--input)) !important;
+        }
+
+        .dark input::placeholder, .dark textarea::placeholder {
+            color: hsl(var(--muted-foreground)) !important;
+            opacity: 0.7 !important;
+        }
+
+        /* Modal fixes */
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
+            color: #000 !important;
+            background-color: #fff !important;
+            border-color: #ccc !important;
+        }
+
+        .dark .modal-content input,
+        .dark .modal-content textarea,
+        .dark .modal-content select {
+            color: #fff !important;
+            background-color: #1a1a1a !important;
+            border-color: #444 !important;
+        }
+
+        /* Button fixes */
+        button {
+            color: inherit !important;
+        }
+
+        /* Checkbox fixes */
+        input[type="checkbox"] {
+            accent-color: hsl(var(--primary)) !important;
+        }
+
+        /* Tab fixes */
+        [data-tab] {
+            color: hsl(var(--foreground)) !important;
+        }
+
+        [data-tab].bg-primary {
+            color: hsl(var(--primary-foreground)) !important;
+        }
+
+        /* Drag and Drop styles */
+        .drag-over {
+            background-color: hsl(var(--primary) / 0.1) !important;
+            border-color: hsl(var(--primary)) !important;
+        }
+
+        .dragging {
+            opacity: 0.5 !important;
+            transform: rotate(2deg) !important;
+        }
+
+        .drop-zone {
+            border: 2px dashed hsl(var(--primary)) !important;
+            background-color: hsl(var(--primary) / 0.05) !important;
+        }
+
+        /* Kanban board improvements */
+        .kanban-column {
+            min-height: 400px;
+            transition: all 0.3s ease;
+        }
+
+        .kanban-column.drag-over {
+            background-color: hsl(var(--primary) / 0.1);
+            border-color: hsl(var(--primary));
+            transform: scale(1.02);
+        }
+
+        .project-card {
+            transition: all 0.3s ease;
+            cursor: move;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg) scale(1.05);
+            z-index: 1000;
+        }
+
+        .member-card {
+            transition: all 0.3s ease;
+            cursor: move;
+        }
+
+        .member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-card.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg) scale(1.05);
+            z-index: 1000;
+        }
+
+        .project-card.drag-over .drop-indicator {
+            opacity: 0.5 !important;
+        }
+
+        /* Status column colors */
+        .status-pending {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .status-active {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .status-waiting {
+            border-left: 4px solid #f97316;
+        }
+
+        .status-completed {
+            border-left: 4px solid #10b981;
+        }
+
+        /* Smooth animations */
+        * {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .kanban-board {
+                flex-direction: column;
+            }
+            
+            .members-panel {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Footer styles */
+        .footer {
+            border-top: 1px solid hsl(var(--border));
+            background-color: hsl(var(--background) / 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Loading -->
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="text-center">
+                <i class="fas fa-spinner fa-spin text-4xl mb-4"></i>
+                <p>Yükleniyor...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
